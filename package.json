@@ -1,0 +1,51 @@
+{
+  "name": "gatsby-start-up-studios-landing",
+  "private": true,
+  "description": "Gatsby landing site for startup studious",
+  "version": "0.1.0",
+  "author": "Ariel Shaposhnik <arishaposhnik@gmail.com>",
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.2.0",
+    "@material-ui/styles": "^4.0.1",
+    "gatsby": "^2.7.5",
+    "gatsby-background-image": "^1.5.0",
+    "gatsby-image": "^2.1.2",
+    "gatsby-plugin-mailchimp": "^5.2.2",
+    "gatsby-plugin-manifest": "^2.1.1",
+    "gatsby-plugin-material-ui": "^2.0.1",
+    "gatsby-plugin-offline": "^2.1.1",
+    "gatsby-plugin-react-helmet": "^3.0.12",
+    "gatsby-plugin-sharp": "^3.2.1",
+    "gatsby-source-filesystem": "^2.0.37",
+    "gatsby-theme-material-ui": "^2.0.1",
+    "gatsby-transformer-sharp": "^3.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
+    "typeface-roboto": "0.0.54"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dominicabela/gatsby-starter-material-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/dominicabela/gatsby-starter-material-ui/issues"
+  }
+}
