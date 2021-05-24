@@ -27,6 +27,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import MailIcon from '@material-ui/icons/Mail'
 import { graphql, useStaticQuery } from 'gatsby'
 // import styled from 'styled-components'
+import addToMailchimp from 'gatsby-plugin-mailchimp'
 
 import BackgroundImage from 'gatsby-background-image'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -64,6 +65,7 @@ const useStyles = makeStyles(theme => ({
     height: '80vh',
     alignItems: 'center',
     textAlign: 'center',
+    paddingTop: 150,
     width: '100%',
     paddingLeft: 0,
   },
@@ -71,8 +73,9 @@ const useStyles = makeStyles(theme => ({
 
 const IndexPage = props => {
   const classes = useStyles()
-  const [features, setFeatures] = React.useState(true)
-  const [info, setInfo] = React.useState(true)
+  const [email, setEmail] = React.useState('')
+  const [message, setMessage] = React.useState('')
+  const [submitted, setSubmitted] = React.useState(false)
 
   const { mobileImage, desktopImage } = useStaticQuery(
     graphql`
@@ -128,6 +131,38 @@ const IndexPage = props => {
     imageData = mobileImage.childImageSharp.fluid
   }
 
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    if (!submitted) {
+      addToMailchimp(email)
+        .then(data => {
+          // I recommend setting data to React state
+          // but you can do whatever you want (including ignoring this `then()` altogether)
+          if (data.result === 'success') {
+            setMessage(data.msg)
+            setSubmitted(true)
+          } else {
+            if (data.msg.includes('is already subscribed')) {
+              setMessage('This email is already subscribed 🛑 ⚠️')
+            } else {
+              setMessage(data.msg + '⚠️')
+            }
+          }
+          console.log(data)
+        })
+        .catch(() => {
+          // unnecessary because Mailchimp only ever
+          // returns a 200 status code
+          // see below for how to handle errors
+        })
+    } else {
+      setMessage(
+        'You have already subscribed to our newsletter from this device ⚠️'
+      )
+    }
+  }
+
   // const imageData = mobileImage.childImageSharp.fluid
   // console.log(imageData)
   return (
@@ -166,7 +201,10 @@ const IndexPage = props => {
                   marginBottom: 20,
                 }}
               >
-                <Typography variant="h2" style={{ color: 'white' }}>
+                <Typography
+                  variant="h2"
+                  style={{ color: 'white', marginBottom: 10 }}
+                >
                   Be part of the future of innovative business collaboration.
                   Join our startup studios today!
                 </Typography>
@@ -180,8 +218,9 @@ const IndexPage = props => {
                     id="outlined-basic"
                     label="Email address"
                     variant="outlined"
+                    onChange={e => setEmail(e.target.value)}
                     style={{
-                      width: 302,
+                      width: 208,
                     }}
                     InputProps={{
                       endAdornment: <MailIcon />,
@@ -193,11 +232,23 @@ const IndexPage = props => {
                     variant="contained"
                     color="secondary"
                     style={{ height: '100%' }}
+                    onClick={e => handleSubmit(e)}
                   >
                     Submit
                   </Button>
                 </Grid>
               </Grid>
+              <Typography
+                variant="h3"
+                style={{
+                  width: '100%',
+                  maxWidth: 850,
+                  marginTop: 10,
+                  textAlign: 'center',
+                }}
+              >
+                {message}
+              </Typography>
             </Grid>
           </Grid>
         </Hidden>
@@ -214,7 +265,7 @@ const IndexPage = props => {
                   marginBottom: 20,
                 }}
               >
-                <Typography variant="h2" color="primary">
+                <Typography variant="h2" color="secondary">
                   Be part of the future of innovative business collaboration.
                   Join our startup studios today!
                 </Typography>
@@ -228,6 +279,7 @@ const IndexPage = props => {
                     id="outlined-basic"
                     label="Email address"
                     variant="outlined"
+                    onChange={e => setEmail(e.target.value)}
                     style={{
                       width: 302,
                     }}
@@ -241,11 +293,23 @@ const IndexPage = props => {
                     variant="contained"
                     color="secondary"
                     style={{ height: '100%' }}
+                    onClick={e => handleSubmit(e)}
                   >
                     Submit
                   </Button>
                 </Grid>
               </Grid>
+              <Typography
+                variant="h3"
+                style={{
+                  width: '100%',
+                  maxWidth: 850,
+                  marginTop: 10,
+                  textAlign: 'start',
+                }}
+              >
+                {message}
+              </Typography>
             </Grid>
           </Grid>
         </Hidden>

@@ -8,6 +8,14 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: 'gatsby-plugin-mailchimp',
+      options: {
+        endpoint:
+          'https://startupstudios.us6.list-manage.com/subscribe/post?u=28e00cbf495da023bd499380d&amp;id=7f903c7c46', // string; add your MC list endpoint here; see instructions below
+        timeout: 3500, // number; the amount of time, in milliseconds, that you want to allow mailchimp to respond to your request before timing out. defaults to 3500
+      },
+    },
+    {
       resolve: `gatsby-theme-material-ui`,
       options: {
         webFontsConfig: {
